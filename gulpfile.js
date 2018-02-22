@@ -10,16 +10,14 @@ gulp.task('live-server', function() {
 })
 
 gulp.task('bundle', function() {
-    return browserify()
+    return browserify({
+        entries: 'app/main.js',
+        debug: true,   
+    })
     .bundle()
-    .pipe(source('app.js'))
+    .pipe(source('app.bundle.js'))
     .pipe(gulp.dest('./.tmp'));
 })
-
-// gulp.task('copy', function() {
-//     gulp.src(['./app/*.css', './bower_components/skeleton/css/*.css'])
-//     .pipe(gulp.dest('./.tmp'))
-// })
 
 gulp.task('serve', ['bundle', 'live-server'], function() {
     browserSync.init(null, {
