@@ -1,7 +1,4 @@
 # tfwpori
-Training for Warriors Pori
-
-# tfwpori
 Training for Warriors Home Page
 
 Built in Node and AngularJS
@@ -16,10 +13,10 @@ $ npm install
 
 ## run
 
-Run tfwpori with [gulp](https://gulpjs.com):
+Run tfwpori with [gulp](https://gulpjs.com)
 
 ```
 $ gulp serve
 ```
 
-Open [browser](http://localhost:9000/)
+Open [browser](http://localhost:9000/) http://localhost:9000/
