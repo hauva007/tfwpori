@@ -1,0 +1,24 @@
+{
+  "name": "tfwpori",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "browserify": "^16.1.0",
+    "ejs": "^2.5.7",
+    "express": "^4.16.2",
+    "gulp": "^3.9.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.23.6",
+    "browserify": "^16.1.0",
+    "gulp-live-server": "0.0.31"
+  }
+}
