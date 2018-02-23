@@ -16,7 +16,7 @@ $ npm install
 Run tfwpori with [gulp](https://gulpjs.com)
 
 ```
-$ gulp serve
+$ gulp watch
 ```
 
 Open [browser](http://localhost:9000/) http://localhost:9000/
