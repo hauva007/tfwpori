@@ -10,8 +10,11 @@
 
         function config($routeProvider, $locationProvider) {
             $routeProvider
-                .when("/",{
-                    templateUrl: "templates/application.html"
+            .when('/', {
+                templateUrl: 'views/home.html'
+            })
+            .when('/test', {
+                templateUrl: 'views/test.html'
             });
             $locationProvider.html5Mode(true);
         }

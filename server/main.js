@@ -2,7 +2,6 @@ let express = require('express');
 let app = new express();
 let parser = require('body-parser');
 
-
 app.get('/', function(req, res) {
     res.render('./../app/index.ejs');
 })

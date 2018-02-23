@@ -10,6 +10,7 @@
     var ngRoute = require('angular-route');
     
     var app = angular.module('tfwpori', [ngRoute]);
-
+    
     require('./app.routes.js')(app);
+    
 })();

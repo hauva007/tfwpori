@@ -36,6 +36,13 @@ var tasks = {
           .pipe(gulp.dest('./.tmp'));
     },
     // --------------------------
+    // HTML
+    // --------------------------
+    templates: function() {
+        gulp.src('./app/views/*.html')
+        .pipe(gulp.dest('./.tmp/views'));
+    },
+    // --------------------------
     // SASS (libsass)
     // --------------------------
     sass: function() {
@@ -105,6 +112,7 @@ gulp.task('clean', tasks.clean);
 // for production we require the clean method on every individual task
 var req = build ? ['clean'] : [];
 // individual tasks
+gulp.task('templates', req, tasks.templates);
 gulp.task('assets', req, tasks.assets);
 gulp.task('sass', req, tasks.sass);
 gulp.task('browserify', tasks.browserify);
@@ -115,6 +123,10 @@ gulp.task('browser-sync', function() {
         proxy: "http://localhost:7777",
         port: process.env.PORT || 9000
     });
+});
+
+gulp.task('reload-templates', ['templates'], function(){
+    browserSync.reload();
 });
 
 gulp.task('reload-sass', ['sass'], function(){
@@ -128,7 +140,7 @@ gulp.task('reload-js', ['browserify'], function(){
 // --------------------------
 // DEV/WATCH TASK
 // --------------------------
-gulp.task('watch', ['assets', 'sass', 'browserify', 'browser-sync'], function() {
+gulp.task('watch', ['assets', 'templates', 'sass', 'browserify', 'browser-sync'], function() {
     
     // --------------------------
     // watch:sass
