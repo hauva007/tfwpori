@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var gutil = require('gulp-util');
 var browserSync = require('browser-sync');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
@@ -9,6 +8,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var autoprefixer = require('autoprefixer-core');
 var postcss = require('gulp-postcss');
 var sass = require('gulp-sass');
+var jshint = require('gulp-jshint');
+var stylish = require('jshint-stylish');
 
 // gulp build --production
 var production = !!argv.production;
@@ -66,7 +67,7 @@ var tasks = {
     // Browserify (bundle)
     // --------------------------
     browserify: function() {
-        var bundler = browserify('app/main.js', {
+        var bundler = browserify('app/js/main.js', {
             debug: !production,
             cache: {}
         });
@@ -75,10 +76,24 @@ var tasks = {
             .on('error', handleError('Browserify'))
             .pipe(source('app.bundle.js'))
             .pipe(gulp.dest('./.tmp'));
-        }
+        };
         return rebundle();
+    },
+    // --------------------------
+    // linting
+    // --------------------------
+    lintjs: function() {
+        return gulp.src([
+            'gulpfile.js',
+            './app/js/main.js',
+            './app/js/**/*.js'
+        ]).pipe(jshint())
+        .pipe(jshint.reporter(stylish))
+        .on('error', function() {
+            beep();
+        });
     }
-}
+};
 
 // --------------------------
 // CUSTOM TASK METHODS
@@ -90,6 +105,7 @@ var req = build ? ['clean'] : [];
 gulp.task('assets', req, tasks.assets);
 gulp.task('sass', req, tasks.sass);
 gulp.task('browserify', tasks.browserify);
+gulp.task('lint:js', tasks.lintjs);
 
 gulp.task('browser-sync', function() {
     browserSync.init(null, {
@@ -98,26 +114,31 @@ gulp.task('browser-sync', function() {
     });
 });
 
-
 gulp.task('reload-sass', ['sass'], function(){
+    browserSync.reload();
+});
+
+gulp.task('reload-js', ['browserify'], function(){
     browserSync.reload();
 });
 
 // --------------------------
 // DEV/WATCH TASK
 // --------------------------
-gulp.task('serve', ['sass', 'browserify', 'browser-sync'], function() {
+gulp.task('watch', ['sass', 'browserify', 'browser-sync'], function() {
     
     // --------------------------
     // watch:sass
     // --------------------------
     gulp.watch('./app/scss/**/*.scss', ['reload-sass']);
 
+    // --------------------------
+    // watch:js
+    // --------------------------
+    gulp.watch('./app/js/**/*.js', ['lint:js', 'reload-js']);
+
     gutil.log(gutil.colors.bgGreen('Watching for changes...'));
 });
-
-
-
 
 // ----------------------------
 // Error notification methods
