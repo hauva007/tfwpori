@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var gutil = require('gulp-util');
 var browserSync = require('browser-sync');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
@@ -29,7 +30,9 @@ var tasks = {
     // Copy static assets
     // --------------------------
     assets: function() {
-        return gulp.src('./app/assets/**/*')
+        return gulp.src([
+            './app/assets/**/*',
+            './app/favicon.png'])
           .pipe(gulp.dest('./.tmp'));
     },
     // --------------------------
@@ -67,7 +70,7 @@ var tasks = {
     // Browserify (bundle)
     // --------------------------
     browserify: function() {
-        var bundler = browserify('app/js/main.js', {
+        var bundler = browserify('app/js/app.main.js', {
             debug: !production,
             cache: {}
         });
@@ -125,7 +128,7 @@ gulp.task('reload-js', ['browserify'], function(){
 // --------------------------
 // DEV/WATCH TASK
 // --------------------------
-gulp.task('watch', ['sass', 'browserify', 'browser-sync'], function() {
+gulp.task('watch', ['assets', 'sass', 'browserify', 'browser-sync'], function() {
     
     // --------------------------
     // watch:sass
